@@ -29,8 +29,8 @@ void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int n
 
 void get_matrix_dims(const char path[], int *num_features, int *num_examples)
 {
-    FILE *csv = fopen(path, "r");
-    if (csv == NULL)
+    FILE *fp = fopen(path, "r");
+    if (fp == NULL)
     {
         fprintf(stderr, "Can't read %s\n", path);
         exit(EXIT_FAILURE);
@@ -44,7 +44,7 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
     // count lines, count tokens
     int num_lines = 0;
     int num_tokens = 0;
-    while ((fgets(line, LINE_SIZE, csv)) != NULL)
+    while ((fgets(line, LINE_SIZE, fp)) != NULL)
     {
         strcpy(buffer, line);
         token = strtok(buffer, ",");
@@ -57,6 +57,8 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
         }
         num_lines++;
     }
+    fclose(fp);
+    free(fp);
 
     printf("Source file contains %d features and %d examples\n", num_tokens - 1, num_lines);
 
@@ -66,8 +68,8 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
 
 void load_matrix_from_csv(const char path[], gsl_matrix *Q)
 {
-    FILE *csv = fopen(path, "r");
-    if (csv == NULL)
+    FILE *fp = fopen(path, "r");
+    if (fp == NULL)
     {
         fprintf(stderr, "Can't read %s\n", path);
         exit(EXIT_FAILURE);
@@ -80,7 +82,7 @@ void load_matrix_from_csv(const char path[], gsl_matrix *Q)
 
     int count_line = 0;
     int count_token = 0;
-    while ((fgets(line, LINE_SIZE, csv)) != NULL)
+    while ((fgets(line, LINE_SIZE, fp)) != NULL)
     {
         strcpy(buffer, line);
         token = strtok(buffer, ",");
@@ -94,6 +96,6 @@ void load_matrix_from_csv(const char path[], gsl_matrix *Q)
         count_line++;
     }
 
-    fclose(csv);
-    free(csv);
+    fclose(fp);
+    free(fp);
 }
