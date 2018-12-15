@@ -18,11 +18,11 @@ Usage:
 
 2) Estimate coefficients. The following command estimates the linear regression coefficients starting from two csv file, one containing the training examples and the other one containing the training labels.
 ```
-./fast-lr estimate [X_train_csv_file] [y_train_csv_file]
+./fast-lr fit [X_train_csv_file] [y_train_csv_file]
 ```
 
 Example:
 ```
 ./fast-lr generate 2000 100000
-./fast-lr estimate X_train.csv y_train.csv
+./fast-lr fit X_train.csv y_train.csv
 ```
