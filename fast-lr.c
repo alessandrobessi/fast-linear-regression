@@ -31,16 +31,16 @@ int main(int argc, char *argv[])
 
         printf("Generating sample data with %d features and %d examples.\n", num_features, num_examples);
         generate_data(num_features, num_examples);
-        printf("Done! You can use sample_train.csv\n");
+        printf("Done! You can use X_train.csv and y_train.csv\n");
         exit(EXIT_SUCCESS);
     }
 
     if (strcmp(argv[1], "estimate") == 0)
     {
 
-        if (argc < 3)
+        if (argc < 4)
         {
-            printf("Error. You must provide a source csv file.\n");
+            printf("Error. You must provide a source csv file for examples and a source csv file for labels.\n");
             exit(EXIT_FAILURE);
         }
 
@@ -52,21 +52,11 @@ int main(int argc, char *argv[])
 
         get_matrix_dims(argv[2], ptr_num_features, ptr_num_examples);
 
-        gsl_matrix *Q = gsl_matrix_alloc(num_examples, num_features + 1);
-        load_matrix_from_csv(argv[2], Q);
-
         gsl_matrix *X = gsl_matrix_alloc(num_examples, num_features);
+        load_matrix_from_csv(argv[2], X);
+
         gsl_matrix *y = gsl_matrix_alloc(num_examples, 1);
-
-        for (int i = 0; i < num_examples; i++)
-        {
-            gsl_matrix_set(y, i, 0, gsl_matrix_get(Q, i, 0));
-
-            for (int j = 0; j < num_features; j++)
-            {
-                gsl_matrix_set(X, i, j, gsl_matrix_get(Q, i, j + 1));
-            }
-        }
+        load_matrix_from_csv(argv[3], y);
 
         // DO THE MATH
         gsl_matrix *XT = gsl_matrix_alloc(num_features, num_examples);

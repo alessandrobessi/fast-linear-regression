@@ -8,19 +8,21 @@ make
 ```
 
 Usage:
-1) Generate sample data. The following command produces a csv file containing a matrix of dimensions (num_examples, num_features + 1), where the first column represents the dependent variable.
+1) Generate sample data. The following command produces two csv files: 
+- X_train.csv: a matrix of dimensions (num_examples, num_features) with training examples
+- y_train.csv: a matrix of dimensions (num_examples, 1) with training labels
 ```
 ./fast-lr generate [num_features] [num_examples]
 ```
 
 
-2) Estimate coefficients. The following command estimates the linear regression coefficients starting from a csv where the first columns represents the dependent variable.
+2) Estimate coefficients. The following command estimates the linear regression coefficients starting from two csv file, one containing the training examples and the other one containing the training labels.
 ```
-./fast-lr estimate [path_to_csv_file]
+./fast-lr estimate [X_train_csv_file] [y_train_csv_file]
 ```
 
 Example:
 ```
 ./fast-lr generate 2000 100000
-./fast-lr estimate sample_train.csv
+./fast-lr estimate X_train.csv y_train.csv
 ```

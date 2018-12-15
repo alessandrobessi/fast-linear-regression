@@ -31,15 +31,6 @@ void generate_data(int num_features, int num_examples)
         gsl_matrix_set(y, i, 0, value + rand() / (range * 1000));
     }
 
-    gsl_matrix *Z = gsl_matrix_alloc(num_examples, num_features + 1);
-    for (int i = 0; i < num_examples; i++)
-    {
-        gsl_matrix_set(Z, i, 0, gsl_matrix_get(y, i, 0));
-        for (int j = 0; j < num_features; j++)
-        {
-            gsl_matrix_set(Z, i, j + 1, gsl_matrix_get(X, i, j));
-        }
-    }
-
-    save_matrix_to_csv(Z, num_features, num_examples);
+    save_matrix_to_csv(X, num_features, num_examples, "X_train.csv");
+    save_matrix_to_csv(y, 1, num_examples, "y_train.csv");
 }

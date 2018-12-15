@@ -3,21 +3,21 @@
 #include <string.h>
 #include <gsl/gsl_matrix.h>
 
-void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int num_examples)
+void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int num_examples, const char file_name[])
 {
-    FILE *fp = fopen("sample_train.csv", "w");
+    FILE *fp = fopen(file_name, "w");
     if (fp == NULL)
     {
-        printf("Can't open sample_train.csv\n");
+        printf("Can't open %s\n", file_name);
         exit(EXIT_FAILURE);
     }
 
     for (int i = 0; i < num_examples; i++)
     {
-        for (int j = 0; j < num_features + 1; j++)
+        for (int j = 0; j < num_features; j++)
         {
             fprintf(fp, "%g", gsl_matrix_get(Z, i, j));
-            if (j < num_features)
+            if (j < num_features - 1)
                 fprintf(fp, ",");
         }
         if (i < num_examples - 1)
@@ -60,9 +60,9 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
     fclose(fp);
     free(fp);
 
-    printf("Source file contains %d features and %d examples\n", num_tokens - 1, num_lines);
+    printf("Source file contains %d features and %d examples\n", num_tokens, num_lines);
 
-    *num_features = num_tokens - 1;
+    *num_features = num_tokens;
     *num_examples = num_lines;
 }
 
