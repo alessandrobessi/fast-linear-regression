@@ -6,6 +6,7 @@
 #include "csv.h"
 #include "generate.h"
 #include "estimate.h"
+#include "predict.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    if (strcmp(argv[1], "generate") != 0 && strcmp(argv[1], "fit") != 0)
+    if (strcmp(argv[1], "generate") != 0 && strcmp(argv[1], "fit") != 0 && strcmp(argv[1], "predict") != 0)
     {
         printf("See usage!\n");
         exit(EXIT_FAILURE);
@@ -43,6 +44,18 @@ int main(int argc, char *argv[])
         }
 
         fit(argv[2], argv[3]);
+    }
+
+    if (strcmp(argv[1], "predict") == 0)
+    {
+
+        if (argc < 3)
+        {
+            printf("Error. You must provide a source csv file for examples and a source csv file for labels.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        predict(argv[2], argv[3]);
     }
 
     return 0;

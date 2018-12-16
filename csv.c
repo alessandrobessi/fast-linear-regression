@@ -25,6 +25,8 @@ void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int n
     }
     fclose(fp);
     free(fp);
+
+    printf("Data saved to %s\n", file_name);
 }
 
 void get_matrix_dims(const char path[], int *num_features, int *num_examples)
@@ -35,6 +37,8 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
         fprintf(stderr, "Can't read %s\n", path);
         exit(EXIT_FAILURE);
     }
+
+    printf("Reading %s\n", path);
 
     const size_t LINE_SIZE = 1024 * 1024;
     char *line = malloc(LINE_SIZE);
@@ -60,7 +64,7 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
     fclose(fp);
     free(fp);
 
-    printf("Source file contains %d features and %d examples\n", num_tokens, num_lines);
+    printf("%s contains %d features and %d examples\n", path, num_tokens, num_lines);
 
     *num_features = num_tokens;
     *num_examples = num_lines;

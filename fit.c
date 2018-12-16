@@ -76,4 +76,6 @@ void fit(const char x_file_name[], const char y_file_name[])
     for (int i = 0; i < num_examples; i++)
         printf("u[%d] = %.3g\n", i, gsl_matrix_get(u, i, 0));
     printf("\n");
+
+    save_matrix_to_csv(beta, 1, num_features, "beta.csv");
 }
