@@ -72,6 +72,7 @@ void fit(const char x_file_name[], const char y_file_name[])
         printf("est beta[%d] = %.3g (%.3g)\n", i, gsl_matrix_get(beta, i, 0), gsl_matrix_get(vcov, i, i));
     printf("\n");
 
+    // SHOW ERRORS
     printf("errors (y - y_hat):\n");
     for (int i = 0; i < num_examples; i++)
         printf("u[%d] = %.3g\n", i, gsl_matrix_get(u, i, 0));

@@ -38,8 +38,6 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
         exit(EXIT_FAILURE);
     }
 
-    printf("Reading %s\n", path);
-
     const size_t LINE_SIZE = 1024 * 1024;
     char *line = malloc(LINE_SIZE);
     char buffer[LINE_SIZE];
@@ -78,6 +76,8 @@ void load_matrix_from_csv(const char path[], gsl_matrix *Q)
         fprintf(stderr, "Can't read %s\n", path);
         exit(EXIT_FAILURE);
     }
+
+    printf("Reading %s\n", path);
 
     const size_t LINE_SIZE = 1024 * 1024;
     char *line = malloc(LINE_SIZE);

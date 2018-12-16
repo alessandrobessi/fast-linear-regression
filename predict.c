@@ -26,7 +26,7 @@ void predict(const char x_file_name[], const char beta_file_name[])
     printf("y_hat:\n");
     for (int i = 0; i < num_examples; i++)
     {
-        printf("%.3g\t", gsl_matrix_get(y_hat, i, 0));
+        printf("y_hat[%d] = %.3g\n", i, gsl_matrix_get(y_hat, i, 0));
     }
     printf("\n");
 
