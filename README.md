@@ -16,13 +16,20 @@ Usage:
 ```
 
 
-2) Estimate coefficients. The following command estimates the linear regression coefficients starting from two csv file, one containing the training examples and the other one containing the training labels.
+2) Fit a linear regression model. The following command estimates the linear regression coefficients starting from two csv file, one containing the training examples and the other one containing the training labels.
 ```
 ./fast-lr fit [X_train_csv_file] [y_train_csv_file]
+```
+
+3) Predict. The following command predicts y values using two csv file, one containing training examples and the other one containing linear regression coefficients.
+```
+./fast-lr predict [X_train_csv_file] [beta_csv_file]
 ```
 
 Example:
 ```
 ./fast-lr generate 2000 100000
 ./fast-lr fit X_train.csv y_train.csv
+./fast-lr predict X_train.csv beta.csv
+
 ```
