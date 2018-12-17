@@ -23,7 +23,7 @@ make
 
 3) Predict. The following command predicts y values using two csv file, one containing training examples and the other one containing linear regression coefficients.
 ```
-./fast-lr predict [X_train_csv_file] [beta_csv_file]  [--verbose]
+./fast-lr predict [X_train_csv_file] [beta_csv_file] [--verbose]
 ```
 
 Example:
