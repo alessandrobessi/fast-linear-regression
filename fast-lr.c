@@ -23,6 +23,17 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+    bool verbose = false;
+    for (int i = 2; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--verbose") == 0)
+        {
+            verbose = true;
+            if (verbose)
+                printf("Verbose mode\n");
+        }
+    }
+
     if (strcmp(argv[1], "generate") == 0)
     {
         int num_features = atoi(argv[2]);
@@ -41,6 +52,17 @@ int main(int argc, char *argv[])
         {
             printf("Error. You must provide a source csv file for examples and a source csv file for labels.\n");
             exit(EXIT_FAILURE);
+        }
+
+        bool with_intercept = false;
+        for (int i = 2; i < argc; i++)
+        {
+            if (strcmp(argv[i], "--with-intercept") == 0)
+            {
+                with_intercept = true;
+                if (with_intercept)
+                    printf("Fitting with intercept\n");
+            }
         }
 
         fit(argv[2], argv[3]);
