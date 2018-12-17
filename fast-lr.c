@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
 
-        predict(argv[2], argv[3]);
+        predict(argv[2], argv[3], verbose);
     }
 
     return 0;

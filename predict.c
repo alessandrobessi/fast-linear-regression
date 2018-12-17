@@ -1,9 +1,10 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
+#include <stdbool.h>
 #include "csv.h"
 
-void predict(const char x_file_name[], const char beta_file_name[])
+void predict(const char x_file_name[], const char beta_file_name[], const bool verbose)
 {
     int num_features = 0;
     int num_examples = 0;
@@ -23,12 +24,15 @@ void predict(const char x_file_name[], const char beta_file_name[])
     gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, X, beta, 0.0, y_hat);
 
     // SHOW Y_HAT
-    printf("y_hat:\n");
-    for (int i = 0; i < num_examples; i++)
+    if (verbose)
     {
-        printf("y_hat[%d] = %.3g\n", i, gsl_matrix_get(y_hat, i, 0));
+        printf("y_hat:\n");
+        for (int i = 0; i < num_examples; i++)
+        {
+            printf("y_hat[%d] = %.3g\n", i, gsl_matrix_get(y_hat, i, 0));
+        }
+        printf("\n");
     }
-    printf("\n");
 
     save_matrix_to_csv(y_hat, 1, num_examples, "y_hat.csv");
 }
