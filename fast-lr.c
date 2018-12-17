@@ -5,7 +5,7 @@
 #include <string.h>
 #include "csv.h"
 #include "generate.h"
-#include "estimate.h"
+#include "fit.h"
 #include "predict.h"
 
 int main(int argc, char *argv[])
@@ -29,8 +29,6 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "--verbose") == 0)
         {
             verbose = true;
-            if (verbose)
-                printf("Verbose mode\n");
         }
     }
 
@@ -65,7 +63,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        fit(argv[2], argv[3]);
+        fit(argv[2], argv[3], verbose);
     }
 
     if (strcmp(argv[1], "predict") == 0)

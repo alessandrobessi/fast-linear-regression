@@ -1,9 +1,10 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
+#include <stdbool.h>
 #include "csv.h"
 
-void fit(const char x_file_name[], const char y_file_name[])
+void fit(const char x_file_name[], const char y_file_name[], const bool verbose)
 {
     int num_features = 0;
     int num_examples = 0;
@@ -55,28 +56,36 @@ void fit(const char x_file_name[], const char y_file_name[])
 
     double s2 = gsl_matrix_get(uTu, 0, 0) / (num_examples - num_features);
 
-    printf("s2 = %g\n", s2);
+    if (verbose)
+        printf("s2 = %g\n", s2);
 
     double correction_factor = (double)(num_examples - num_features) / num_examples;
     double sigma2 = correction_factor * s2;
 
-    printf("sigma2 = %g\n", sigma2);
+    if (verbose)
+        printf("sigma2 = %g\n", sigma2);
 
     gsl_matrix *vcov = gsl_matrix_alloc(num_features, num_features);
     gsl_matrix_memcpy(vcov, inv);
     gsl_matrix_scale(vcov, sigma2);
 
     // SHOW BETA ESTIMATES
-    printf("beta estimates:\n");
-    for (int i = 0; i < num_features; i++)
-        printf("est beta[%d] = %.3g (%.3g)\n", i, gsl_matrix_get(beta, i, 0), gsl_matrix_get(vcov, i, i));
-    printf("\n");
+    if (verbose)
+    {
+        printf("beta estimates:\n");
+        for (int i = 0; i < num_features; i++)
+            printf("est beta[%d] = %.3g (%.3g)\n", i, gsl_matrix_get(beta, i, 0), gsl_matrix_get(vcov, i, i));
+        printf("\n");
+    }
 
     // SHOW ERRORS
-    printf("errors (y - y_hat):\n");
-    for (int i = 0; i < num_examples; i++)
-        printf("u[%d] = %.3g\n", i, gsl_matrix_get(u, i, 0));
-    printf("\n");
+    if (verbose)
+    {
+        printf("errors (y - y_hat):\n");
+        for (int i = 0; i < num_examples; i++)
+            printf("u[%d] = %.3g\n", i, gsl_matrix_get(u, i, 0));
+        printf("\n");
+    }
 
     save_matrix_to_csv(beta, 1, num_features, "beta.csv");
 }
