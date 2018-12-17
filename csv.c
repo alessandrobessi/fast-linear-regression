@@ -27,7 +27,8 @@ void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int n
     fclose(fp);
     free(fp);
 
-    printf("Data saved to %s\n", file_name);
+    int bytes_size = sizeof(double) * num_examples * num_features;
+    printf("Data saved to %s [%d bytes]\n", file_name, bytes_size);
 }
 
 void get_matrix_dims(const char path[], int *num_features, int *num_examples)
@@ -63,7 +64,8 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
     fclose(fp);
     free(fp);
 
-    printf("%s contains %d features and %d examples\n", path, num_tokens, num_lines);
+    int bytes_size = sizeof(double) * num_lines * num_tokens;
+    printf("%s contains %d features and %d examples [%d bytes]\n", path, num_tokens, num_lines, bytes_size);
 
     *num_features = num_tokens;
     *num_examples = num_lines;
