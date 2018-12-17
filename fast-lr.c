@@ -32,6 +32,15 @@ int main(int argc, char *argv[])
         }
     }
 
+    bool intercept = false;
+    for (int i = 2; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--with-intercept") == 0)
+        {
+            intercept = true;
+        }
+    }
+
     if (strcmp(argv[1], "generate") == 0)
     {
         int num_features = atoi(argv[2]);
@@ -52,18 +61,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
 
-        bool with_intercept = false;
-        for (int i = 2; i < argc; i++)
-        {
-            if (strcmp(argv[i], "--with-intercept") == 0)
-            {
-                with_intercept = true;
-                if (with_intercept)
-                    printf("Fitting with intercept\n");
-            }
-        }
-
-        fit(argv[2], argv[3], verbose);
+        fit(argv[2], argv[3], verbose, intercept);
     }
 
     if (strcmp(argv[1], "predict") == 0)
@@ -75,7 +73,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
 
-        predict(argv[2], argv[3], verbose);
+        predict(argv[2], argv[3], verbose, intercept);
     }
 
     return 0;

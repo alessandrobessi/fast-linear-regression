@@ -1,5 +1,5 @@
 # TODO
 
 - write usage
-- add --intercept flag
-- add --verbose flag
+- add --with-intercept flag
+- add dimensions in bytes

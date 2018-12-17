@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <gsl/gsl_matrix.h>
 
 void save_matrix_to_csv(const gsl_matrix *Z, const int num_features, const int num_examples, const char file_name[])
@@ -68,7 +69,7 @@ void get_matrix_dims(const char path[], int *num_features, int *num_examples)
     *num_examples = num_lines;
 }
 
-void load_matrix_from_csv(const char path[], gsl_matrix *Q)
+void load_matrix_from_csv(const char path[], gsl_matrix *Q, const bool intercept)
 {
     FILE *fp = fopen(path, "r");
     if (fp == NULL)
@@ -90,7 +91,7 @@ void load_matrix_from_csv(const char path[], gsl_matrix *Q)
     {
         strcpy(buffer, line);
         token = strtok(buffer, ",");
-        count_token = 0;
+        count_token = intercept == true ? 1 : 0;
         while (token != NULL)
         {
             gsl_matrix_set(Q, count_line, count_token, atof(token));
@@ -98,6 +99,14 @@ void load_matrix_from_csv(const char path[], gsl_matrix *Q)
             token = strtok(NULL, ",");
         }
         count_line++;
+    }
+
+    if (intercept)
+    {
+        for (int i = 0; i < count_line; i++)
+        {
+            gsl_matrix_set(Q, i, 0, 1);
+        }
     }
 
     fclose(fp);

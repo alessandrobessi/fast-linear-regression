@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "csv.h"
 
-void fit(const char x_file_name[], const char y_file_name[], const bool verbose)
+void fit(const char x_file_name[], const char y_file_name[], const bool verbose, const bool intercept)
 {
     int num_features = 0;
     int num_examples = 0;
@@ -14,11 +14,14 @@ void fit(const char x_file_name[], const char y_file_name[], const bool verbose)
 
     get_matrix_dims(x_file_name, ptr_num_features, ptr_num_examples);
 
+    if (intercept)
+        num_features++;
+
     gsl_matrix *X = gsl_matrix_alloc(num_examples, num_features);
-    load_matrix_from_csv(x_file_name, X);
+    load_matrix_from_csv(x_file_name, X, intercept);
 
     gsl_matrix *y = gsl_matrix_alloc(num_examples, 1);
-    load_matrix_from_csv(y_file_name, y);
+    load_matrix_from_csv(y_file_name, y, false);
 
     // DO THE MATH
     gsl_matrix *XT = gsl_matrix_alloc(num_features, num_examples);

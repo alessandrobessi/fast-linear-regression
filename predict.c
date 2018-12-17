@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "csv.h"
 
-void predict(const char x_file_name[], const char beta_file_name[], const bool verbose)
+void predict(const char x_file_name[], const char beta_file_name[], const bool verbose, const bool intercept)
 {
     int num_features = 0;
     int num_examples = 0;
@@ -14,11 +14,14 @@ void predict(const char x_file_name[], const char beta_file_name[], const bool v
 
     get_matrix_dims(x_file_name, ptr_num_features, ptr_num_examples);
 
+    if (intercept)
+        num_features++;
+
     gsl_matrix *X = gsl_matrix_alloc(num_examples, num_features);
-    load_matrix_from_csv(x_file_name, X);
+    load_matrix_from_csv(x_file_name, X, intercept);
 
     gsl_matrix *beta = gsl_matrix_alloc(num_features, 1);
-    load_matrix_from_csv(beta_file_name, beta);
+    load_matrix_from_csv(beta_file_name, beta, false);
 
     gsl_matrix *y_hat = gsl_matrix_alloc(num_examples, 1);
     gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, X, beta, 0.0, y_hat);

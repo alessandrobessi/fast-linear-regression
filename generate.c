@@ -1,5 +1,6 @@
 #include <gsl/gsl_matrix.h>
 #include <time.h>
+#include <stdbool.h>
 #include "csv.h"
 
 void generate_data(int num_features, int num_examples)
