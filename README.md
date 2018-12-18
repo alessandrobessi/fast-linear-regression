@@ -4,6 +4,7 @@
 ```
 git clone https://github.com/alessandrobessi/fast-linear-regression.git
 cd fast-linear-regression
+cd src
 make
 make clean
 ```
