@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -7,9 +8,9 @@
 #include "generate.h"
 #include "fit.h"
 #include "predict.h"
+#include "ridge.h"
 
-void print_usage()
-{
+void print_usage() {
     printf("Something went wrong...\n\n");
     printf("Usage\n-----\n");
     printf("fast-lr generate [num_features] [num_examples]\n");
@@ -17,41 +18,41 @@ void print_usage()
     printf("fast-lr predict [X_train_csv_file] [beta_csv_file] [--verbose] [--with-intercept]\n");
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
-    if (argc < 2)
-    {
+    if (argc < 2) {
         print_usage();
         exit(EXIT_FAILURE);
     }
 
-    if (strcmp(argv[1], "generate") != 0 && strcmp(argv[1], "fit") != 0 && strcmp(argv[1], "predict") != 0)
-    {
+    if (strcmp(argv[1], "generate") != 0 && strcmp(argv[1], "fit") != 0 && strcmp(argv[1], "predict") != 0 &&
+        strcmp(argv[1], "ridge") != 0) {
         print_usage();
         exit(EXIT_FAILURE);
     }
 
     bool verbose = false;
-    for (int i = 2; i < argc; i++)
-    {
-        if (strcmp(argv[i], "--verbose") == 0)
-        {
+    for (int i = 2; i < argc; i++) {
+        if (strcmp(argv[i], "--verbose") == 0) {
             verbose = true;
         }
     }
 
     bool intercept = false;
-    for (int i = 2; i < argc; i++)
-    {
-        if (strcmp(argv[i], "--with-intercept") == 0)
-        {
+    for (int i = 2; i < argc; i++) {
+        if (strcmp(argv[i], "--with-intercept") == 0) {
             intercept = true;
         }
     }
 
-    if (strcmp(argv[1], "generate") == 0)
-    {
+    double lambda = 0;
+    for (int i = 2; i < argc; i++) {
+        if (strcmp(argv[i], "--lambda") == 0) {
+            lambda = atof(argv[i + 1]);
+        }
+    }
+
+    if (strcmp(argv[1], "generate") == 0) {
         int num_features = atoi(argv[2]);
         int num_examples = atoi(argv[3]);
 
@@ -61,11 +62,9 @@ int main(int argc, char *argv[])
         exit(EXIT_SUCCESS);
     }
 
-    if (strcmp(argv[1], "fit") == 0)
-    {
+    if (strcmp(argv[1], "fit") == 0) {
 
-        if (argc < 4)
-        {
+        if (argc < 4) {
             print_usage();
             exit(EXIT_FAILURE);
         }
@@ -73,11 +72,19 @@ int main(int argc, char *argv[])
         fit(argv[2], argv[3], verbose, intercept);
     }
 
-    if (strcmp(argv[1], "predict") == 0)
-    {
+    if (strcmp(argv[1], "ridge") == 0) {
 
-        if (argc < 3)
-        {
+        if (argc < 5) {
+            print_usage();
+            exit(EXIT_FAILURE);
+        }
+
+        ridge(argv[2], argv[3], lambda, verbose, intercept);
+    }
+
+    if (strcmp(argv[1], "predict") == 0) {
+
+        if (argc < 3) {
             print_usage();
             exit(EXIT_FAILURE);
         }
