@@ -91,5 +91,5 @@ void ridge(const char x_file_name[], const char y_file_name[], const double lamb
         printf("\n");
     }
 
-    save_matrix_to_csv(beta, 1, num_features, "beta.csv");
+    save_matrix_to_csv(beta, 1, num_features, "beta_ridge.csv");
 }
