@@ -45,6 +45,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    bool normalize = false;
+    for (int i = 2; i < argc; i++) {
+        if (strcmp(argv[i], "--normalize") == 0) {
+            normalize = true;
+        }
+    }
+
     double lambda = 0;
     for (int i = 2; i < argc; i++) {
         if (strcmp(argv[i], "--lambda") == 0) {
@@ -89,7 +96,7 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
 
-        predict(argv[2], argv[3], verbose, intercept);
+        predict(argv[2], argv[3], verbose, intercept, normalize);
     }
 
     return 0;

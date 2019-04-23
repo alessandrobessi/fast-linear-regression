@@ -1,6 +1,7 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
+#include <gsl/gsl_statistics_double.h>
 #include <stdbool.h>
 #include "csv.h"
 
@@ -22,6 +23,33 @@ void ridge(const char x_file_name[], const char y_file_name[], const double lamb
 
     gsl_matrix *y = gsl_matrix_alloc(num_examples, 1);
     load_matrix_from_csv(y_file_name, y, false);
+
+    // NORMALIZATION y
+    double data[num_examples];
+    for (int k = 0; k < num_examples; k++) {
+        data[k] = gsl_matrix_get(y, k, 0);
+    }
+
+    double mean = gsl_stats_mean(data, 1, num_examples);
+    gsl_matrix_add_constant(y, mean);
+
+    // NORMALIZATION x
+    gsl_vector *col = gsl_vector_alloc(num_examples);
+    double sd;
+    for (int p = 0; p < num_features; p++) {
+        for (int k = 0; k < num_examples; k++) {
+            data[k] = gsl_matrix_get(X, k, p);
+        }
+        mean = gsl_stats_mean(data, 1, num_examples);
+        sd = gsl_stats_sd(data, 1, num_examples);
+        gsl_matrix_get_col(col, X, p);
+        gsl_vector_add_constant(col, mean);
+        gsl_vector_scale(col, 1 / sd);
+        gsl_matrix_set_col(X, p, col);
+    }
+
+
+
 
     // DO THE MATH
     gsl_matrix *XT = gsl_matrix_alloc(num_features, num_examples);
