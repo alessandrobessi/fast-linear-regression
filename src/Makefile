@@ -20,4 +20,4 @@ predict.o : predict.c predict.h
 	gcc -Wall -c predict.c
 
 clean :
-	rm fast-lr.o csv.o generate.o fit.o predict.o
+	rm fast-lr.o csv.o generate.o fit.o predict.o ridge.o
