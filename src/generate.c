@@ -34,4 +34,9 @@ void generate_data(int num_features, int num_examples)
 
     save_matrix_to_csv(X, num_features, num_examples, "X_train.csv");
     save_matrix_to_csv(y, 1, num_examples, "y_train.csv");
+    save_matrix_to_csv(params, 1, num_features, "true_betas.csv");
+
+    gsl_matrix_free(params);
+    gsl_matrix_free(X);
+    gsl_matrix_free(y);
 }
